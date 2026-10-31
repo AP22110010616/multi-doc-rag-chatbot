@@ -1,0 +1,8 @@
+[server]
+# Disables the file-change watcher.
+# Without this, the watcher scans every submodule of the transformers library
+# and logs thousands of harmless "torchvision not found" lines — very noisy.
+fileWatcherType = "none"
+
+[client]
+showErrorDetails = true
