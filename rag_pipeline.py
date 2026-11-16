@@ -221,9 +221,10 @@ def query_rag(
             break                               # got answer → stop trying other models
 
     if answer is None:
+        real_error = str(last_error) if last_error else "Unknown error"
         return (
-            "⚠️ All Groq models are temporarily rate-limited. "
-            "Please wait ~1 minute and ask again.",
+            f"⚠️ Groq API error: {real_error[:300]}\n\n"
+            "Check your GROQ_API_KEY in Streamlit Secrets.",
             [],
         )
 
