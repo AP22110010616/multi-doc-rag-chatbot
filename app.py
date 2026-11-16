@@ -120,13 +120,18 @@ if "messages"         not in st.session_state: st.session_state.messages        
 if "vectorstore"      not in st.session_state: st.session_state.vectorstore      = None
 if "indexed_hashes"   not in st.session_state: st.session_state.indexed_hashes   = set()
 if "api_key"          not in st.session_state: st.session_state.api_key          = ENV_API_KEY
+
+# API key is verified simply by its presence — don't tie it to vectorstore init
+# (vectorstore uses local HuggingFace embeddings, not the API key)
 if "api_key_verified" not in st.session_state:
     st.session_state.api_key_verified = bool(ENV_API_KEY)
-    if ENV_API_KEY:
-        try:
-            st.session_state.vectorstore = get_or_create_vectorstore(ENV_API_KEY)
-        except Exception:
-            st.session_state.api_key_verified = False
+
+# Initialize vectorstore separately — failure here does NOT invalidate the key
+if st.session_state.vectorstore is None and st.session_state.api_key_verified:
+    try:
+        st.session_state.vectorstore = get_or_create_vectorstore()
+    except Exception:
+        pass  # Will retry on next rerun
 
 
 # ─────────────────────────────────────────────────────────────
