@@ -30,10 +30,11 @@ CHUNK_SIZE         = 1000
 CHUNK_OVERLAP      = 150
 TOP_K_DOCS         = 5
 
-# Try models in this order — all on Groq free tier (30 req/min, 14 400/day)
+# Try models in this order — all on Groq free tier
 LLM_MODEL_FALLBACKS = [
-    "llama-3.1-8b-instant",       # fastest, lowest token count
-    "llama-3.3-70b-versatile",    # larger, if small one is rate-limited
+    "llama-4-scout-17b-16e-instruct",    # Llama 4 Scout — fast, free tier
+    "llama-4-maverick-17b-128e-instruct", # Llama 4 Maverick — fallback
+    "qwen3-32b",                          # Qwen 3 — second fallback
 ]
 
 MAX_RETRIES_PER_MODEL = 2
